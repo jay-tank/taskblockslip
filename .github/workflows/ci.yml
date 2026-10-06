@@ -1,0 +1,35 @@
+name: ci
+
+on:
+  push:
+    paths:
+      - "dotnet/taskblockslip/**"
+  pull_request:
+    paths:
+      - "dotnet/taskblockslip/**"
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: dotnet/taskblockslip
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET 10 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Restore
+        run: dotnet restore taskblockslip.slnx
+
+      - name: Build
+        run: dotnet build taskblockslip.slnx --no-restore --configuration Release
+
+      - name: Test
+        run: dotnet test taskblockslip.slnx --no-build --configuration Release --verbosity normal
+
+      - name: Self-check examples (informational)
+        run: dotnet run --project src/Taskblockslip --configuration Release -- examples/Bad.cs examples/Good.cs || true

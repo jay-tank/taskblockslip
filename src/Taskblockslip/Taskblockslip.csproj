@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>taskblockslip</ToolCommandName>
+    <PackageId>Taskblockslip</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>jay-tank</Authors>
+    <Company>jay-tank</Company>
+    <Product>taskblockslip</Product>
+    <Description>Static analyzer that flags the classic .NET "sync over async" footgun: a direct '.Result' property access, '.Wait()'/'.Wait(timeout)' method call, or a '.GetAwaiter().GetResult()' chain, on an expression whose static type is Task/Task&lt;T&gt; -- instead of 'await'ing it. Blocking on async code this way can deadlock under a captured SynchronizationContext (classic ASP.NET, WPF/WinForms) and causes thread-pool starvation under load even where it doesn't deadlock (ASP.NET Core).</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/jay-tank/taskblockslip</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/jay-tank/taskblockslip</RepositoryUrl>
+    <PackageTags>dotnet;csharp;roslyn;async;task;deadlock;static-analysis</PackageTags>
+    <RootNamespace>Taskblockslip</RootNamespace>
+    <AssemblyName>taskblockslip</AssemblyName>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+</Project>
